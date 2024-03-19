@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "solscan-parser"
+version = "0.1.0"
+description = "Simple Selenium Parser for Solscan with Google Sheets Integration. This project is a Selenium-based scraper that collects data from Solscan and saves it to a Google Sheet."
+authors = ["alexmudrak <95851199+alexmudrak@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
