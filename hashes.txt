@@ -1,0 +1,2 @@
+# Add a new hash on a new line. Any leading or
+# trailing quotation marks will be removed
