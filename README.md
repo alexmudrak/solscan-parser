@@ -12,8 +12,8 @@ This project is a Selenium-based scraper that collects data from Solscan and sav
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/alexmudrak/solscan-parser.git
+cd solscan-parser
 ```
 
 Install the dependencies using Poetry:
