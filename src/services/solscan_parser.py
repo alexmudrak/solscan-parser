@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 from core.config import settings
 from core.logger import get_logger
@@ -61,26 +62,23 @@ class SolscanParser:
         logger.debug(f"Trying process SPL for {result.hash}: {elem.text}")
         if elem:
             row_text = elem.text
-            if "SPL tokens" in row_text:
-                spl_data = row_text.replace(")", "").split(" (")
-                spl_count = spl_data[0].replace("SPL tokens", "").strip()
-                spl_usd = spl_data[1].replace("$", "").strip()
+            spl_count, spl_usd = row_text.split("\n")
+            spl_count = spl_count.split(" ")[0]
+            spl_usd = spl_usd.replace("(", "").replace(")", "").replace("$", "")
 
-                result.spl_count = spl_count
-                result.spl_usd = spl_usd
+            result.spl_count = spl_count
+            result.spl_usd = spl_usd
 
         return result
 
     def parse_sol_values(self, result: SolscanResult, driver) -> SolscanResult:
         logger.debug(f"Trying parse SOL for {result.hash}")
-        sol_balance_element = WebDriverWait(driver, 20).until(
+        sol_balance_element = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located(
                 (
                     By.XPATH,
                     (
-                        "//div[contains(@class, 'ant-col ant-col-24 "
-                        "box-overview')]//div[@class='ant-card-body']"
-                        "/div[1]/div[2]"
+                        "//div[text()='SOL Balance']/following::div"
                     ),
                 )
             )
@@ -91,14 +89,12 @@ class SolscanParser:
 
     def parse_spl_values(self, result: SolscanResult, driver) -> SolscanResult:
         logger.debug(f"Trying parse SPL for {result.hash}")
-        spl_balance_element = WebDriverWait(driver, 20).until(
+        spl_balance_element = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located(
                 (
                     By.XPATH,
                     (
-                        "//div[contains(@class, 'ant-col ant-col-24 "
-                        "box-overview')]//div[@class='ant-card-body']"
-                        "/div[2]/div[2]"
+                        "//div[text()='Token Balance']/following::div"
                     ),
                 )
             )
@@ -131,8 +127,12 @@ class SolscanParser:
         self.fix_cf_just_moment(url, driver)
         driver.switch_to.window(driver.window_handles[0])
 
-        result = self.parse_sol_values(result, driver)
-        result = self.parse_spl_values(result, driver)
+        try:
+            result = self.parse_sol_values(result, driver)
+            result = self.parse_spl_values(result, driver)
+        except TimeoutException:
+            logger.info(f"Can't found SQL Balance or Token values: {result.hash}")
+            pass
 
         return result
 

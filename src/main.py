@@ -20,7 +20,7 @@ def read_hashes_from_file(file_path: str) -> list[str]:
 
 if __name__ == "__main__":
     # TODO: get hashes from Google sheet
-    file_path = settings.hases_file_path
+    file_path = settings.hashes_file_path
     if not file_path:
         msg = "The path to the hashes file is not specified in the settings."
         logger.error(msg)
