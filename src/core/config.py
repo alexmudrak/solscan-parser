@@ -1,10 +1,16 @@
 import logging
 import os
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        extra="allow",
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
+
     # Logger config
     log_level: str = "INFO"
     logging.basicConfig(level=log_level)
@@ -14,7 +20,7 @@ class Settings(BaseSettings):
         logging.getLogger("undetected_chromedriver").setLevel(logging.WARNING)
 
     # Source settings
-    hases_file_path: str | None = os.getenv("HASHES_FILE_PATH", None)
+    hashes_file_path: str | None = os.getenv("HASHES_FILE_PATH", None)
 
     # Parse settings
     main_url: str = "https://solscan.io/account/"
