@@ -5,7 +5,6 @@ This project is a Selenium-based scraper that collects data from Solscan and sav
 ## Prerequisites
 
 - Python 3.11+
-- Poetry package manager
 
 ## Installation
 
@@ -16,10 +15,10 @@ git clone https://github.com/alexmudrak/solscan-parser.git
 cd solscan-parser
 ```
 
-Install the dependencies using Poetry:
+Install the dependencies:
 
 ```bash
-poetry install
+pip install -r requirements.txt
 ```
 
 ## Configuration
@@ -39,7 +38,7 @@ Place the `credentials.json` file in the root directory of the project.
 To run the application, use the following command:
 
 ```bash
-poetry run python src/main.py
+python src/main.py
 ```
 
 ## Usage
