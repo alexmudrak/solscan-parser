@@ -3,11 +3,11 @@ from datetime import datetime
 from urllib.parse import urljoin
 
 import undetected_chromedriver as uc
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import TimeoutException
 
 from core.config import settings
 from core.logger import get_logger
@@ -64,7 +64,9 @@ class SolscanParser:
             row_text = elem.text
             spl_count, spl_usd = row_text.split("\n")
             spl_count = spl_count.split(" ")[0]
-            spl_usd = spl_usd.replace("(", "").replace(")", "").replace("$", "")
+            spl_usd = (
+                spl_usd.replace("(", "").replace(")", "").replace("$", "")
+            )
 
             result.spl_count = spl_count
             result.spl_usd = spl_usd
@@ -77,9 +79,7 @@ class SolscanParser:
             EC.presence_of_element_located(
                 (
                     By.XPATH,
-                    (
-                        "//div[text()='SOL Balance']/following::div"
-                    ),
+                    ("//div[text()='SOL Balance']/following::div"),
                 )
             )
         )
@@ -93,9 +93,7 @@ class SolscanParser:
             EC.presence_of_element_located(
                 (
                     By.XPATH,
-                    (
-                        "//div[text()='Token Balance']/following::div"
-                    ),
+                    ("//div[text()='Token Balance']/following::div"),
                 )
             )
         )
@@ -131,7 +129,9 @@ class SolscanParser:
             result = self.parse_sol_values(result, driver)
             result = self.parse_spl_values(result, driver)
         except TimeoutException:
-            logger.info(f"Can't found SQL Balance or Token values: {result.hash}")
+            logger.info(
+                f"Can't found SQL Balance or Token values: {result.hash}"
+            )
             pass
 
         return result

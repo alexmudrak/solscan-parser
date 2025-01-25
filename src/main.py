@@ -14,7 +14,9 @@ def read_hashes_from_file(file_path: str) -> list[str]:
                 if line.strip() and not line.startswith("#")
             ]
     except Exception as e:
-        logger.exception("An error occurred while reading hashes from the file.")
+        logger.exception(
+            "An error occurred while reading hashes from the file."
+        )
         raise e
 
 

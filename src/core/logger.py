@@ -14,8 +14,7 @@ def get_logger(
 
     if not logger.handlers:
         formatter = CustomFormatter(
-            "%(levelname)-9s %(asctime)s - "
-            "[%(name)s] - %(message)s"
+            "%(levelname)-9s %(asctime)s - " "[%(name)s] - %(message)s"
         )
 
         console_handler = logging.StreamHandler()
