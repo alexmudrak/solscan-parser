@@ -75,8 +75,7 @@ async def get_request(num: int, hash: str, retry: int = 0):
 async def runner():
     # tasks = [get_request(i, API_URL) for i in range(100)]
     # await asyncio.gather(*tasks)
-    result = await get_request(1, ACCOUNT_HASH)
-    breakpoint()
+    await get_request(1, ACCOUNT_HASH)
 
 
 if __name__ == "__main__":

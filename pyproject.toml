@@ -1,20 +1,41 @@
-[tool.poetry]
-name = "solscan-parser"
-version = "0.1.0"
-description = "Simple Selenium Parser for Solscan with Google Sheets Integration. This project is a Selenium-based scraper that collects data from Solscan and saves it to a Google Sheet."
-authors = ["alexmudrak <95851199+alexmudrak@users.noreply.github.com>"]
-license = "MIT"
-readme = "README.md"
+[tool.pyright]
+executionEnvironments = [
+  { root = "./", extraPaths = [ "src" ]  }
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-undetected-chromedriver = "^3.5.5"
-pydantic-settings = "^2.2.1"
-google-api-python-client = "^2.122.0"
-google-auth-httplib2 = "^0.2.0"
-google-auth-oauthlib = "^1.2.0"
+[tool.black]
+line-length = 79
 
+[tool.isort]
+line_length = 79
+profile = "black"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+line-length = 79
+lint.fixable = ["ALL"]
+
+[tool.coverage.report]
+exclude_lines= [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    ]
+
+omit = [
+    "*/__init__.py",
+    ]
+
+[tool.coverage.run]
+source = ["src/*"]
+
+omit = [
+    "*/__init__.py",
+    ]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+python_files = [
+    "tests.py",
+    "test_*.py",
+    "*_tests.py",
+    ]

@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        exclude: '\.lock.*'
+      - id: debug-statements
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.1.27
+    hooks:
+      - id: pip-compile
+        name: '[BUILD] Pip-compile'
+        args: [requirements.txt, -o, requirements.txt]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.4
+    hooks:
+      - id: ruff
+        name: '[BE] Ruff'
+        args: ['--fix', '--unsafe-fixes', '--exit-non-zero-on-fix']
+
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+        name: '[BE] Black formatter'
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: '[BE] Isort imports'
